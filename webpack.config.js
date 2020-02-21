@@ -25,6 +25,7 @@ module.exports = {
   devServer: {
     publicPath: '/build/',
     port: 9090,
+    historyApiFallback: true,
   },
   externals: {
     react: 'React',
