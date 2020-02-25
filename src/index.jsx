@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from '@reach/router';
 import Loadable from 'react-loadable'; 
+import Loading from './loading.jsx';
 
 const Page1 = Loadable({
   loader: () => import('./page1.jsx'),
-  loading: () => <div>loading</div>,
+  loading: () => <Loading />,
   render(loaded, props) {
     const Component = loaded.default;
     return <Component {...props} />;
@@ -14,7 +15,7 @@ const Page1 = Loadable({
 
 const Page2 = Loadable({
   loader: () => import('./page2.jsx'),
-  loading: () => <div>loading</div>,
+  loading: () => <Loading />,
   render(loaded, props) {
     const Component = loaded.default;
     return <Component {...props} />;

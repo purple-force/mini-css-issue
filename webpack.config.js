@@ -4,9 +4,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 function recursiveIssuer(m) {
   if (m.issuer) {
     return recursiveIssuer(m.issuer);
-  } else if (m.name) {
-    return m.name;
   } else {
+    for (const chunk of m._chunks) {
+      return chunk.name;
+    }
     return false;
   }
 }
@@ -18,7 +19,7 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    chunkFilename: '[id].js',
+    // chunkFilename: '[id]-chunk.js',
     path: path.join(__dirname, './build'),
     publicPath: '/build/',
   },
@@ -36,7 +37,7 @@ module.exports = {
       cacheGroups: {
         index: {
           name: 'index',
-          test: (m, c, entry) => {
+          test: (m, c, entry = 'index') => {
             return m.constructor.name === 'CssModule' && recursiveIssuer(m) === entry;
           },
           chunks: 'all',
@@ -71,6 +72,9 @@ module.exports = {
   },
 
   plugins: [
-    new MiniCssExtractPlugin({ filename: '[name].css' })
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      // chunkFilename: '[name]-chunk.css',
+    }),
   ]
 };
